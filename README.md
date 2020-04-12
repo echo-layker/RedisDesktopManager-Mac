@@ -1,6 +1,6 @@
 # RedisDesktopManager-Mac
 
-RedisDesktopManager For Mac OSX，手工编译的 https://github.com/uglide/RedisDesktopManager  2019.4版本。
+RedisDesktopManager For Mac OSX，~~手工~~（travis）编译的 https://github.com/uglide/RedisDesktopManager  2019.5版本。
 
 不要star，release里面下载使用就好啦，有条件的请支持正版哦！http://redisdesktop.com/download
 
