@@ -42,6 +42,7 @@ deploy:
   api_key: ${DEPLOY_KEY}
   file: 'rdm/bin/osx/release/Redis Desktop Manager.dmg'
   skip_cleanup: true
+  draft: true
   on:
     tags: true
 
