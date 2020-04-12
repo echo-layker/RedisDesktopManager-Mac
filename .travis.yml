@@ -30,8 +30,8 @@ script:
   - pushd src
   - qmake CONFIG-=debug
   - make -s -j 8
-  - popd
   - macdeployqt bin/osx/release/'Redis Desktop Manager.app' -qmldir=qml -dmg
+  - popd
   - find bin/osx/release -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
 
 deploy:
