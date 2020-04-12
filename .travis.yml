@@ -28,13 +28,13 @@ script:
   - pip3 install -r src/py/requirements.txt
   - cp src/resources/Info.plist.sample src/resources/Info.plist
   - sed -i '' '/CONFIG-=app_bundle/d' src/rdm.pro
-  - cat src/rdm.pro | grep "CONFIG-=app_bundle"
+  - cat src/rdm.pro
   - pushd src
   - qmake CONFIG-=debug
   - make -s -j 8
   - popd
   - macdeployqt bin/osx/release/'Redis Desktop Manager.app' -qmldir=src/qml -dmg
-  - find bin/osx/release -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
+#  - find bin/osx/release -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
   - popd
 
 deploy:
