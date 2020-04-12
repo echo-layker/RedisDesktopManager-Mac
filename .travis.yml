@@ -26,8 +26,7 @@ before_script:
 script:
   - pip3 install -r src/py/requirements.txt
   - cp src/resources/Info.plist.sample src/resources/Info.plist
-#  - sed -i '' 's/debug: CONFIG-=app_bundle/#debug: CONFIG-=app_bundle/g' src/rdm.pro
-  - sed -i "s/debug: CONFIG-=app_bundle/#debug: CONFIG-=app_bundle/g" src/rdm.pro
+  - sed -E -i "s/debug:\ CONFIG-=app_bundle/#debug:\ CONFIG-=app_bundle/g" src/rdm.pro
   - pushd src
   - qmake CONFIG-=debug
   - make -s -j 8
