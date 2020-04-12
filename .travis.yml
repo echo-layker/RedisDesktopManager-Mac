@@ -22,6 +22,7 @@ before_script:
     - mkdir -p /usr/local/opt/python/lib/Python.framework/Versions/
     - ln -s /usr/local/opt/python/Frameworks/Python.framework/Versions/3.7 /usr/local/opt/python/lib/Python.framework/Versions/3.7
     - cp -r {src,3rdparty,build} ../
+    - popd
 
 script:
   - pip3 install -r src/py/requirements.txt
@@ -30,7 +31,7 @@ script:
   - pushd src
   - qmake CONFIG-=debug
   - make -s -j 8
-  - macdeployqt bin/osx/release/'Redis Desktop Manager.app' -qmldir=qml -dmg
+  - macdeployqt ../bin/osx/release/'Redis Desktop Manager.app' -qmldir=qml -dmg
   - popd
   - find bin/osx/release -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
 
