@@ -21,24 +21,26 @@ before_script:
     - git checkout -b 2019.5 2019.5 && git submodule update --init --recursive
     - mkdir -p /usr/local/opt/python/lib/Python.framework/Versions/
     - ln -s /usr/local/opt/python/Frameworks/Python.framework/Versions/3.7 /usr/local/opt/python/lib/Python.framework/Versions/3.7
-    - cp -r {src,3rdparty,build} ../
     - popd
 
 script:
+  - pushd rdm
   - pip3 install -r src/py/requirements.txt
   - cp src/resources/Info.plist.sample src/resources/Info.plist
   - rdm=$(cat src/rdm.pro); echo ${rdm/debug:\ CONFIG-=app_bundle/#debug:\ CONFIG-=app_bundle/} > src/rdm.pro
+  - cat src/rdm.pro | grep "CONFIG-=app_bundle"
   - pushd src
   - qmake CONFIG-=debug
   - make -s -j 8
-  - macdeployqt ../bin/osx/release/'Redis Desktop Manager.app' -qmldir=qml -dmg
   - popd
+  - macdeployqt bin/osx/release/'Redis Desktop Manager.app' -qmldir=src/qml -dmg
   - find bin/osx/release -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
+  - popd
 
 deploy:
   provider: releases
   api_key: ${DEPLOY_KEY}
-  file: 'bin/osx/release/Redis Desktop Manager.dmg'
+  file: 'rdm/bin/osx/release/Redis Desktop Manager.dmg'
   skip_cleanup: true
   on:
     tags: true
