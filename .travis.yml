@@ -27,7 +27,7 @@ script:
   - pushd rdm
   - pip3 install -r src/py/requirements.txt
   - cp src/resources/Info.plist.sample src/resources/Info.plist
-  - sed -i '/CONFIG-=app_bundle/d' src/rdm.pro
+  - sed -i '' '/CONFIG-=app_bundle/d' src/rdm.pro
   - cat src/rdm.pro | grep "CONFIG-=app_bundle"
   - pushd src
   - qmake CONFIG-=debug
