@@ -1,0 +1,47 @@
+language: cpp
+dist: bionic
+sudo: required
+
+os:
+  - osx
+
+install:
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+    brew update > /dev/null
+    && brew install qt5 > /dev/null
+    && brew install openssl > /dev/null
+    && brew install python3 > /dev/null
+    && export PATH=/usr/local/opt/qt5/bin/:$PATH
+    ;
+    fi
+  - qmake -v
+
+before_script:
+    - git clone --recursive https://github.com/uglide/RedisDesktopManager.git rdm
+    - pushd rdm
+    - git checkout -b 2019.5 2019.5 && git submodule update --init --recursive
+    - mkdir -p /usr/local/opt/python/lib/Python.framework/Versions/
+    - ln -s /usr/local/opt/python/Frameworks/Python.framework/Versions/3.7 /usr/local/opt/python/lib/Python.framework/Versions/3.7
+    - cp -r {src,3rdparty,build} ../
+
+script:
+  - pip3 install -r src/py/requirements.txt
+  - cp src/resources/Info.plist.sample src/resources/Info.plist
+  - sed -i '' 's/debug: CONFIG-=app_bundle/#debug: CONFIG-=app_bundle/g' src/rdm.pro
+  - pushd src
+  - qmake CONFIG-=debug
+  - make -s -j 8
+  - popd
+  - macdeployqt bin/osx/release/'Redis Desktop Manager.app' -qmldir=qml -dmg
+  - find bin/osx/release -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
+
+deploy:
+  provider: releases
+  api_key: ${DEPLOY_KEY}
+  file: 'bin/osx/release/Redis Desktop Manager.dmg'
+  skip_cleanup: true
+  on:
+    tags: true
+
+after_success:
+  - echo "build success"
