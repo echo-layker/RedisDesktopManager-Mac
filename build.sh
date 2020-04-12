@@ -21,6 +21,7 @@ pip3 install -t ./ -r ../../../src/py/requirements.txt --upgrade
 
 echo "=======================Build RDM ${TAG}======================="
 cd $SHELL_FOLDER/rdm/src
+sed -i '' '/CONFIG-=app_bundle/d' rdm.pro
 qmake CONFIG-=debug CONFIG+=sdk_no_version_check
 make -s -j 8
 
